@@ -11,7 +11,7 @@ import { ProductService } from '@products/services/product.service';
 export class HomePage {
   productService  = inject(ProductService)
 
-  productResource = rxResource({
+  productsResource = rxResource({
     stream: () => this.productService.getProducts({}),
   });
  }

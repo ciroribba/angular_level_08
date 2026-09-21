@@ -17,11 +17,11 @@ export class ProductService {
     
     private http = inject(HttpClient);
 
-    getProducts(options: Options): Observable<ProductsResponse[]> {
+    getProducts(options: Options): Observable<ProductsResponse> {
 
         const {limit = 9, offset = 0, gender = ''} = options;
 
-        return this.http.get<ProductsResponse[]>(`${baseUrl}/products`, {
+        return this.http.get<ProductsResponse>(`${baseUrl}/products`, {
             params: {
                 limit,
                 offset,
