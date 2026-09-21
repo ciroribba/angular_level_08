@@ -12,6 +12,6 @@ export class HomePage {
   productService  = inject(ProductService)
 
   productResource = rxResource({
-    stream: () => this.productService.getProducts(),
+    stream: () => this.productService.getProducts({}),
   });
  }
