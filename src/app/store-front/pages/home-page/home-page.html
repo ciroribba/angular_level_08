@@ -1,8 +1,6 @@
 <h1 class="text-3xl font-bold font-montserrat">Todos los productos</h1>
 <h2 class="text-lg mb-5">Para todos los gustos</h2>
 
-<app-pagination [pages]="productsResource.value()?.pages ?? 0"/>
-
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-2">
     @for (product of productsResource.value()?.products ?? [] ; track $index) {
         <product-card [product]="product" />
@@ -14,4 +12,9 @@
             <p class="text-gray-500">No hay productos disponibles</p>
         </div>
     }
+    
+</div>
+
+<div class="mt-5 flex justify-center">
+    <app-pagination [pages]="productsResource.value()?.pages ?? 0" [currentPage]="paginationService.currentPage()" />
 </div>
