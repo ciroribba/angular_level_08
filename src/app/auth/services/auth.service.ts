@@ -29,6 +29,7 @@ export class AuthService {
 
     user = computed<User | null>(() => this._user());
     token = computed<string | null>(() => this._token());
+    isAdmin = computed<boolean>(() => this._user()?.roles.includes('admin') ?? false);
 
     login(email: string, password: string): Observable<boolean> {
         return this.http.post<AuthResponse>(`${baseUrl}/auth/login`, {
@@ -40,6 +41,9 @@ export class AuthService {
         );
     }
 
+    // para evitar llamar dos veces checkoutstatus cuando ya se ha llamado una vez en contexto de isAdminGuard
+    // se podria hacer un observable que se subscribe solo una vez y se cachee el resultado
+    // pero para evitar complicaciones, se hace de esta manera
     checkStatus(): Observable<boolean> {
         const token = localStorage.getItem('token');
         if(!token) {
