@@ -32,7 +32,7 @@
                 </div>
               </div>
               <div>
-                <a [routerLink]="['/admin/product', product.id]" class="font-bold">{{ product.title }}</a>
+                <a [routerLink]="['/admin/products', product.id]" class="font-bold hover:text-accent transition-colors duration-300">{{ product.title }}</a>
                 <div class="text-sm opacity-50">{{ product.sizes.join(', ') }}</div>
               </div>
             </div>
@@ -41,7 +41,7 @@
             {{ product.price | currency }}
           </td>
           <td>
-            @if (product.stock >=  10) {
+            @if (product.stock <=  10) {
               <span class="badge badge-error">{{ product.stock }}</span>
             } 
             <!-- -->
@@ -54,7 +54,7 @@
             }
           </td>
           <th>
-            <a [routerLink]="['/admin/product', product.id]" class="btn btn-ghost text-accentbtn-xs">
+            <a [routerLink]="['/admin/products', product.id]" class="btn btn-ghost text-accentbtn-xs">
                 Detalles
             </a>
           </th>
