@@ -1,1 +1,10 @@
-<p>product-admin-page works!</p>,
+@if(productResource.isLoading()) {
+<div class="flex justify-center items-center h-screen">
+    <span class="loading loading-spinner loading-lg">Product Admin Page</span>
+</div>}
+
+@if(productResource.hasValue()) {
+    <div>
+        <product-details [product]="productResource.value()!"></product-details>
+    </div>
+}
