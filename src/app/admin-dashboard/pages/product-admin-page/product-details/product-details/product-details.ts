@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { Product } from '@products/components/interfaces/product.interface';
 import { ProductCarousel } from '@products/components/product-carousel/product-carousel';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
@@ -21,6 +21,10 @@ export class ProductDetails  implements OnInit{
   router = inject(Router);
 
   wasSaved = signal(false);
+  imageFileList: FileList | undefined = undefined;
+  tempImages = signal<string[]>([]);
+
+  imagesToCarousel = computed(() => [...this.product().images, ...this.tempImages()]);  
 
   productForm = this.fb.group(
     {
@@ -73,18 +77,28 @@ export class ProductDetails  implements OnInit{
 
     if(this.product().id === 'new') {
     const product = await firstValueFrom(
-      this.productService.createProduct(productLike)
+      this.productService.createProduct(productLike, this.imageFileList)
     );   
     this.router.navigate(['/admin/products', product.id]);
     } else {
 
       await firstValueFrom(
-        this.productService.updateProduct(this.product().id,productLike)
+        this.productService.updateProduct(this.product().id, productLike, this.imageFileList)
       );      
     }
     this.wasSaved.set(true);
     setTimeout(() => {
       this.wasSaved.set(false);
     }, 3000);   
+  }
+
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const filesList = target.files;
+
+    this.imageFileList = filesList ?? undefined;
+
+    const imageUrls = Array.from(filesList ?? []).map((file) => URL.createObjectURL(file));
+    this.tempImages.set(imageUrls);
   }
 }
